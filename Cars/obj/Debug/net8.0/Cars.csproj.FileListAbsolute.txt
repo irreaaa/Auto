@@ -1,0 +1,14 @@
+C:\Users\irisp\source\repos\Cars\Cars\bin\Debug\net8.0\Cars.exe
+C:\Users\irisp\source\repos\Cars\Cars\bin\Debug\net8.0\Cars.deps.json
+C:\Users\irisp\source\repos\Cars\Cars\bin\Debug\net8.0\Cars.runtimeconfig.json
+C:\Users\irisp\source\repos\Cars\Cars\bin\Debug\net8.0\Cars.dll
+C:\Users\irisp\source\repos\Cars\Cars\bin\Debug\net8.0\Cars.pdb
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.AssemblyInfoInputs.cache
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.AssemblyInfo.cs
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.csproj.CoreCompileInputs.cache
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.dll
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\refint\Cars.dll
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.pdb
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\Cars.genruntimeconfig.cache
+C:\Users\irisp\source\repos\Cars\Cars\obj\Debug\net8.0\ref\Cars.dll
