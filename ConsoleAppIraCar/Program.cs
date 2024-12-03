@@ -4,7 +4,7 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("Введите цирфу, для какого авто вы хотите сделать расчет: обычная(1), спорткар(2), фура(3)");
+        Console.WriteLine("Введите цирфу, для какого авто Вы хотите сделать расчет: обычная(1), спорткар(2), фура(3)");
         int choice = Convert.ToInt32(Console.ReadLine());
 
         if (choice == 1)
@@ -15,10 +15,10 @@ class Program
             Console.WriteLine("Введите текущий объем бака: ");
             double CurrentV = Convert.ToDouble(Console.ReadLine());
 
-            Console.WriteLine("Введите расход топлива на вашем автомобиле: ");
+            Console.WriteLine("Введите расход топлива на Вашем автомобиле: ");
             double Rashod = Convert.ToDouble(Console.ReadLine());
 
-            Console.WriteLine("Введите расстояние, которое вы хотите проехать: ");
+            Console.WriteLine("Введите расстояние, которое Вы хотите проехать: ");
             double distance = Convert.ToDouble(Console.ReadLine());
 
             Auto avto = new Auto("A123BC", CurrentV, VMax, Rashod, distance);
@@ -27,7 +27,7 @@ class Program
 
             while (true)
             {
-                Console.WriteLine("\nВведите расстояние, которое вы хотите проехать (или нажмите 'в' для выхода): ");
+                Console.WriteLine("\nВведите расстояние, которое Вы хотите проехать (или нажмите 'в' для выхода): ");
                 string inputDistance = Console.ReadLine();
 
                 if (inputDistance == "в" || inputDistance == "d")
@@ -43,23 +43,23 @@ class Program
         }
         if (choice == 2)
         {
-            double vMax = 105;
-            double rashod = 17;
-            string autoNumber = "1SPR23";
+            double VMax = 105;
+            double Rashod = 17;
+            string AutoNumber = "1SPR23";
 
             Console.WriteLine("Введите текущий объем бака: ");
-            double CurrentVS = Convert.ToDouble(Console.ReadLine());
+            double CurrentV = Convert.ToDouble(Console.ReadLine());
 
-            Console.WriteLine("Введите расстояние, которое вы хотите проехать: ");
-            double distanceS = Convert.ToDouble(Console.ReadLine());
-            
-            SportCar sportCar = new SportCar(autoNumber, CurrentVS, vMax, rashod, distanceS);
+            Console.WriteLine("Введите расстояние, которое Вы хотите проехать: ");
+            double distance = Convert.ToDouble(Console.ReadLine());
 
-            sportCar.Itog(distanceS);
+            SportCar sportCar = new SportCar(AutoNumber, CurrentV, VMax, Rashod, distance);
+
+            sportCar.Itog(distance);
 
             while (true)
             {
-                Console.WriteLine("\nВведите расстояние, которое вы хотите проехать (или нажмите 'в' для выхода): ");
+                Console.WriteLine("\nВведите расстояние, которое Вы хотите проехать (или нажмите 'в' для выхода): ");
                 string inputDistance = Console.ReadLine();
 
                 if (inputDistance == "в" || inputDistance == "d")
@@ -67,31 +67,31 @@ class Program
                     break;
                 }
 
-                distanceS = Convert.ToDouble(inputDistance);
-                sportCar.Itog(distanceS);
+                distance = Convert.ToDouble(inputDistance);
+                sportCar.Itog(distance);
             }
 
-            Console.WriteLine($"\nОбщий пробег автомобиля: {sportCar.TotalDistance}км.");
+            Console.WriteLine($"\nОбщий пробег спорткара: {sportCar.TotalDistance}км.");
         }
         if (choice == 3)
         {
-            double vMax = 500;
-            double rashod = 25.5;
-            string autoNumber = "1TRC23";
+            double VMax = 500;
+            double Rashod = 25.5;
+            string AutoNumber = "1TRC23";
 
             Console.WriteLine("Введите текущий объем бака: ");
-            double CurrentVT = Convert.ToDouble(Console.ReadLine());
+            double CurrentV = Convert.ToDouble(Console.ReadLine());
 
-            Console.WriteLine("Введите расстояние, которое вы хотите проехать: ");
-            double distanceT = Convert.ToDouble(Console.ReadLine());
-            
-            Truck truck = new Truck(autoNumber, CurrentVT, vMax, rashod, distanceT);
+            Console.WriteLine("Введите расстояние, которое Вы хотите проехать: ");
+            double distance = Convert.ToDouble(Console.ReadLine());
 
-            truck.Itog(distanceT);
+            Truck truck = new Truck(AutoNumber, CurrentV, VMax, Rashod, distance);
+
+            truck.Itog(distance);
 
             while (true)
             {
-                Console.WriteLine("\nВведите расстояние, которое вы хотите проехать (или нажмите 'в' для выхода): ");
+                Console.WriteLine("\nВведите расстояние, которое Вы хотите проехать (или нажмите 'в' для выхода): ");
                 string inputDistance = Console.ReadLine();
 
                 if (inputDistance == "в" || inputDistance == "d")
@@ -99,15 +99,16 @@ class Program
                     break;
                 }
 
-                distanceT = Convert.ToDouble(inputDistance);
-                truck.Itog(distanceT);
+                distance = Convert.ToDouble(inputDistance);
+                truck.Itog(distance);
             }
 
-            Console.WriteLine($"\nОбщий пробег автомобиля: {truck.TotalDistance}км.");
+            Console.WriteLine($"\nОбщий пробег фуры: {truck.TotalDistance}км.");
         }
     }
 }
-class  Auto
+
+class Auto
 {
    string AutoNumber;
    double CurrentV;
@@ -124,13 +125,13 @@ class  Auto
        TotalDistance = 0;
    }
 
-   public bool Doedet(double km)
+   public virtual bool Doedet(double km)
    {
        double neededFuel = Rashod * km;
        return CurrentV >= neededFuel;
    }
 
-   public double Proekhat(double km)
+   public virtual double Proekhat(double km)
    {
        if (!Doedet(km))
        {
@@ -143,24 +144,24 @@ class  Auto
        return Math.Round(CurrentV, 2);
    }
 
-   public void Perezaryad(double litres)
-   {
-       if (litres <= 0)
-       {
-           Console.WriteLine("Объем топлива не может быть отрицательным.");
-           return;
-       }
+    public virtual void Perezaryad(double litres)
+    {
+        if (litres <= 0)
+        {
+            Console.WriteLine("Объем топлива не может быть отрицательным.");
+            return;
+        }
+        if (litres > VMax)
+        {
+            Console.WriteLine("Количество топлива не может превышать объем бака.");
+            return;
+        }
+        CurrentV += litres;
+        Console.WriteLine($"Вы успешно заправили {litres}л. Текущий объем топлива: {litres}л.");
+    }
 
-       if (CurrentV + litres > VMax)
-       {
-           Console.WriteLine("Количество топлива не может превышать объем бака.");
-           return;
-       }
-       CurrentV += litres;
-       Console.WriteLine($"Вы успешно заправили {litres}л. Текущий объем топлива: {CurrentV}л.");
-   }
 
-   public void Itog(double distance)
+    public virtual void Itog(double distance)
    {
        if (Doedet(distance))
        {
@@ -185,10 +186,84 @@ class  Auto
 
 class SportCar : Auto
 {
-    public SportCar(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance) { }
+    string AutoNumber;
+    double CurrentV;
+    double VMax = 105;
+    double Rashod = 17;
+    new public double TotalDistance;
+
+    public SportCar(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance)
+    {
+        AutoNumber = autoNumber;
+        CurrentV = currentV;
+        VMax = vMax;
+        Rashod = rashod / 100;
+        TotalDistance = 0;
+    }
+
+    public override void Itog(double distance)
+    {
+        if (Doedet(distance))
+        {
+            Console.WriteLine($"Спорткар может проехать это расстояние ({distance}км).");
+            Console.WriteLine($"Остаток топлива: {Proekhat(distance)}л.");
+        }
+        else
+        {
+            double requiredFuel = distance * Rashod;
+            double missingFuel = requiredFuel - CurrentV;
+            Console.WriteLine(missingFuel);
+            double missingKm = missingFuel / Rashod;
+            Console.WriteLine(missingKm);
+
+            Console.WriteLine($"Не хватает топлива для преодоления {missingKm:N2}км.");
+            Console.WriteLine("Спорткар не доедет без дозаправки.");
+            Console.WriteLine($"Введите количество литров для дозаправки (понадобиться {missingFuel}л.):");
+            double dozapravka = Convert.ToDouble(Console.ReadLine());
+            Perezaryad(dozapravka);
+            Itog(distance);
+        }
+    }
 }
 
 class Truck : Auto
 {
-    public Truck(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance) { }
+    string AutoNumber;
+    double CurrentV;
+    double VMax = 500;
+    double Rashod = 25.5;
+    public double TotalDistance;
+
+    public Truck(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance)
+    {
+        AutoNumber = autoNumber;
+        CurrentV = currentV;
+        VMax = vMax;
+        Rashod = rashod / 100;
+        TotalDistance = 0;
+    }
+
+    public override void Itog(double distance)
+    {
+        if (Doedet(distance))
+        {
+            Console.WriteLine($"Фура может проехать это расстояние ({distance}км).");
+            Console.WriteLine($"Остаток топлива: {Proekhat(distance)}л.");
+        }
+        else
+        {
+            double requiredFuel = distance * Rashod;
+            double missingFuel = requiredFuel - CurrentV;
+            double missingKm = missingFuel / Rashod;
+
+            Console.WriteLine($"Не хватает топлива для преодоления {missingKm:N2}км.");
+            Console.WriteLine("Фура не доедет без дозаправки.");
+            Console.WriteLine("Введите количество литров для дозаправки:");
+            double dozapravka = Convert.ToDouble(Console.ReadLine());
+            Perezaryad(dozapravka);
+            Itog(distance);
+        }
+    }
 }
+
+//9,8l 17 l/km
