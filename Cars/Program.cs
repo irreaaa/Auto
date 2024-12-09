@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 class Program
 {
@@ -38,8 +39,7 @@ class Program
                 distance = Convert.ToDouble(inputDistance);
                 avto.Itog(distance);
             }
-
-            Console.WriteLine($"\nОбщий пробег автомобиля: {avto.TotalDistance}км.");
+            Console.WriteLine($"Общий пробег автомобиля: {avto.getTotalDistance()}км.");
         }
         if (choice == 2)
         {
@@ -70,8 +70,7 @@ class Program
                 distance = Convert.ToDouble(inputDistance);
                 sportCar.Itog(distance);
             }
-
-            Console.WriteLine($"\nОбщий пробег спорткара: {sportCar.TotalDistance}км.");
+            Console.WriteLine($"Общий пробег автомобиля: {sportCar.getTotalDistance()}км.");
         }
         if (choice == 3)
         {
@@ -84,9 +83,7 @@ class Program
 
             Console.WriteLine("Введите расстояние, которое Вы хотите проехать: ");
             double distance = Convert.ToDouble(Console.ReadLine());
-
             Truck truck = new Truck(AutoNumber, CurrentV, VMax, Rashod, distance);
-
             truck.Itog(distance);
 
             while (true)
@@ -102,70 +99,67 @@ class Program
                 distance = Convert.ToDouble(inputDistance);
                 truck.Itog(distance);
             }
-
-            Console.WriteLine($"\nОбщий пробег фуры: {truck.TotalDistance}км.");
+            Console.WriteLine($"Общий пробег автомобиля: {truck.getTotalDistance()}км.");
         }
     }
 }
 
 class Auto
 {
+    string AutoN;
     string AutoNumber;
-    double CurrentV;
     double VMax;
+    double CurrentV;
     double Rashod;
-    public double TotalDistance;
+    double Distance;
+    double TotalDistance;
 
-    public Auto(string autoNumber, double currentV, double vMax, double rashod, double distance)
+    protected internal Auto(string autoNumber, double vMax, double currentV, double rashod, double distance)
     {
+        AutoN = "Автомобиль";
         AutoNumber = autoNumber;
-        CurrentV = currentV;
         VMax = vMax;
+        CurrentV = currentV;
         Rashod = rashod / 100;
+        Distance = distance;
         TotalDistance = 0;
     }
 
-    public virtual bool Doedet(double km)
+    protected internal virtual bool Doedet(double km)
     {
         double neededFuel = Rashod * km;
         return CurrentV >= neededFuel;
     }
 
-    public virtual double Proekhat(double km)
+    protected internal virtual double Proekhat(double km)
     {
-        if (!Doedet(km))
-        {
-            Console.WriteLine("Недостаточно топлива для преодоления указанного расстояния.");
-        }
-
         double fuelUsed = Rashod * km;
         CurrentV -= fuelUsed;
-        TotalDistance += km;
         return Math.Round(CurrentV, 2);
     }
 
-    public virtual void Perezaryad(double litres)
+    protected internal virtual void Perezaryad(double litres)
     {
         if (litres <= 0)
         {
             Console.WriteLine("Объем топлива не может быть отрицательным.");
             return;
         }
-        if (litres > VMax)
+        if (litres > VMax - CurrentV)
         {
             Console.WriteLine("Количество топлива не может превышать объем бака.");
             return;
         }
         CurrentV += litres;
-        Console.WriteLine($"Вы успешно заправили {litres}л. Текущий объем топлива: {litres}л.");
+        Console.WriteLine($"Вы успешно заправили {litres}л. Текущий объем бака: {CurrentV}л.");
     }
 
-
-    public virtual void Itog(double distance)
+    protected internal virtual void Itog(double distance)
     {
         if (Doedet(distance))
         {
-            Console.WriteLine($"Автомобиль может проехать это расстояние ({distance}км).");
+            TotalDistance += distance;
+            Console.WriteLine($"{AutoN} может проехать это расстояние ({distance:N2}км).");
             Console.WriteLine($"Остаток топлива: {Proekhat(distance)}л.");
         }
         else
@@ -174,90 +168,42 @@ class Auto
             double missingFuel = requiredFuel - CurrentV;
             double missingKm = missingFuel / Rashod;
 
-            Console.WriteLine($"Не хватает топлива для преодоления {missingKm:N2}км.");
+            TotalDistance += distance - missingKm;
+
+            CurrentV = 0;
+            Console.WriteLine($"Нехватает топлива для преодоления {missingKm:N2}км.");
             Console.WriteLine("Автомобиль не доедет без дозаправки.");
-            Console.WriteLine("Введите количество литров для дозаправки:");
+            Console.WriteLine("Введите количество топлива для дозаправки: ");
             double dozapravka = Convert.ToDouble(Console.ReadLine());
             Perezaryad(dozapravka);
-            Itog(distance);
+            Itog(missingKm);
         }
+    }
+    protected internal double getTotalDistance()
+    {
+        return TotalDistance;
     }
 }
 
 class SportCar : Auto
 {
-    string AutoNumber;
-    double CurrentV;
-    double VMax = 105;
-    double Rashod = 17;
-
     public SportCar(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance)
     {
-        AutoNumber = autoNumber;
-        CurrentV = currentV;
-        VMax = vMax;
-        Rashod = rashod / 100;
-        TotalDistance = 0;
     }
-
-    public override void Itog(double distance)
+    protected internal void Itog(double distance)
     {
-        if (Doedet(distance))
-        {
-            Console.WriteLine($"Спорткар может проехать это расстояние ({distance}км).");
-            Console.WriteLine($"Остаток топлива: {Proekhat(distance)}л.");
-        }
-        else
-        {
-            double requiredFuel = distance * Rashod;
-            double missingFuel = requiredFuel - CurrentV;
-            double missingKm = missingFuel / Rashod;
-
-            Console.WriteLine($"Не хватает топлива для преодоления {missingKm:N2}км.");
-            Console.WriteLine("Спорткар не доедет без дозаправки.");
-            Console.WriteLine($"Введите количество литров для дозаправки (понадобиться {missingFuel:N2}л.):");
-            double dozapravka = Convert.ToDouble(Console.ReadLine());
-            Perezaryad(dozapravka);
-            Itog(distance);
-        }
+        base.Itog(distance);
     }
 }
 
 class Truck : Auto
 {
-    string AutoNumber;
-    double CurrentV;
-    double VMax = 500;
-    double Rashod = 25.5;
-
     public Truck(string autoNumber, double currentV, double vMax, double rashod, double distance) : base(autoNumber, currentV, vMax, rashod, distance)
     {
-        AutoNumber = autoNumber;
-        CurrentV = currentV;
-        VMax = vMax;
-        Rashod = rashod / 100;
-        TotalDistance = 0;
     }
-
-    public override void Itog(double distance)
+    protected internal void Itog(double distance)
     {
-        if (Doedet(distance))
-        {
-            Console.WriteLine($"Фура может проехать это расстояние ({distance}км).");
-            Console.WriteLine($"Остаток топлива: {Proekhat(distance)}л.");
-        }
-        else
-        {
-            double requiredFuel = distance * Rashod;
-            double missingFuel = requiredFuel - CurrentV;
-            double missingKm = missingFuel / Rashod;
-
-            Console.WriteLine($"Не хватает топлива для преодоления {missingKm:N2}км.");
-            Console.WriteLine("Фура не доедет без дозаправки.");
-            Console.WriteLine($"Введите количество литров для дозаправки (понадобиться {missingFuel:N2}л.):");
-            double dozapravka = Convert.ToDouble(Console.ReadLine());
-            Perezaryad(dozapravka);
-            Itog(distance);
-        }
+        base.Itog(distance);
     }
 }
+
